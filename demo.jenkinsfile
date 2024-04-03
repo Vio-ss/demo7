@@ -13,7 +13,7 @@ pipeline {
                 }
             }
         }
-        stage('Docker image push') {
+        stage('Docker Login') {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'docker', variable: 'dockerhub')]) {
