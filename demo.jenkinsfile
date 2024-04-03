@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-    'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
+        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
     }
     stages {
         stage('Checkout Code') {
@@ -9,30 +9,29 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Vio-ss/demo7'
             }
         }
-        stage('Docker Build'){
-            steps{
-                script{
-                    bat "docker build -t docker-integeration ."
+        stage('Docker Build') {
+            steps {
+                script {
+                    bat "docker build -t worldjavaapp ."
                 }
             }
         }
         stage('Docker image push') {
             steps {
-                script{
+                script {
                     withCredentials([string(credentialsId: 'docker', variable: 'dockerhub')]) {
-                    bat "docker login -u swesiva -p ${dockerhubpswd}"
+                        bat "docker login -u swesiva -p ${dockerhub}"
                     }
                 }
             }
-        }
+        }
         stage('Docker Test') {
             steps {
-                script{
+                script {
                     bat "docker tag worldjavaapp swesiva/worldjavaapp"
                     bat "docker push swesiva/worldjavaapp:latest"
                 }
             }
-        }
-    }
-
+        }
+    }
 }
